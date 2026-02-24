@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luna 🤍</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #0b1a2a, #000814);
+    color: white;
+    overflow-x: hidden;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3em;
+    margin-top: 30px;
+    color: #e6f7ff;
+    text-shadow: 0 0 20px #8ecae6;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.carta, .galeria {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px;
+}
+
+.box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 25px rgba(142,202,230,0.3);
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: #8ecae6;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.fotos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.fotos img {
+    width: 100%;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.fotos img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #ffffff;
+}
+
+.countdown {
+    text-align: center;
+    margin: 40px 0;
+    font-size: 1.5em;
+}
+
+.particula {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    animation: flutuar 10s linear infinite;
+}
+
+@keyframes flutuar {
+    from { transform: translateY(100vh); opacity: 1; }
+    to { transform: translateY(-10vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<h1 contenteditable="false" id="titulo">Luna 🤍</h1>
+
+<div class="container">
+    <div class="carta">
+        <div class="box">
+            <h2 contenteditable="false" id="tituloCarta">Minha Fúria da Luz</h2>
+
+            <p contenteditable="false" id="textoCarta">
+Luna,
+
+Desde que você entrou na minha vida, tudo mudou. 
+Você não é apenas alguém especial… você é luz no meio da escuridão, é calma no caos, é intensidade que acelera meu coração.
+
+Se o céu tivesse forma humana, ele teria seus olhos.
+Se a lua tivesse voz, ela sussurraria seu nome.
+E se o destino escreveu minha história, foi só para cruzar com você.
+
+Você é minha Fúria da Luz — rara, forte, linda e impossível de não amar.
+Seu brilho ilumina meus dias mais escuros.
+Seu sorriso desmonta qualquer tristeza.
+E sua existência… é o maior presente que a vida poderia me dar.
+
+Eu te amo com uma intensidade que não cabe nas palavras.
+E amaria mil vezes mais, se fosse preciso.
+            </p>
+
+            <p contenteditable="false" id="assinatura">
+Com todo o meu amor.
+            </p>
+
+            <p contenteditable="false" id="data">
+            </p>
+
+            <button onclick="editar()">Editar Carta</button>
+            <button onclick="salvar()">Salvar</button>
+        </div>
+    </div>
+
+    <div class="galeria">
+        <div class="box">
+            <h2>Momentos da Minha Luz ✨</h2>
+            <input type="file" id="upload" accept="image/*">
+            <div class="fotos" id="fotos"></div>
+        </div>
+    </div>
+</div>
+
+<div class="countdown">
+    <h2>Contagem regressiva para o aniversário da minha Luz 🎂✨</h2>
+    <div id="contador"></div>
+</div>
+
+<script>
+// Partículas
+for (let i = 0; i < 40; i++) {
+    let p = document.createElement("div");
+    p.className = "particula";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = (5 + Math.random() * 10) + "s";
+    document.body.appendChild(p);
+}
+
+// Editar
+function editar() {
+    let elementos = ["titulo", "tituloCarta", "textoCarta", "assinatura"];
+    elementos.forEach(id => {
+        let el = document.getElementById(id);
+        el.contentEditable = el.contentEditable === "true" ? "false" : "true";
+    });
+}
+
+// Salvar
+function salvar() {
+    localStorage.setItem("titulo", document.getElementById("titulo").innerHTML);
+    localStorage.setItem("tituloCarta", document.getElementById("tituloCarta").innerHTML);
+    localStorage.setItem("textoCarta", document.getElementById("textoCarta").innerHTML);
+    localStorage.setItem("assinatura", document.getElementById("assinatura").innerHTML);
+    alert("Carta salva 🤍");
+}
+
+// Carregar salvo
+window.onload = function() {
+    ["titulo", "tituloCarta", "textoCarta", "assinatura"].forEach(id => {
+        if(localStorage.getItem(id)) {
+            document.getElementById(id).innerHTML = localStorage.getItem(id);
+        }
+    });
+}
+
+// Upload fotos
+document.getElementById("upload").addEventListener("change", function(e) {
+    let reader = new FileReader();
+    reader.onload = function() {
+        let img = document.createElement("img");
+        img.src = reader.result;
+        document.getElementById("fotos").appendChild(img);
+    }
+    reader.readAsDataURL(e.target.files[0]);
+});
+
+// Contagem regressiva todo ano
+function atualizarContador() {
+    const agora = new Date();
+    let ano = agora.getFullYear();
+    let aniversario = new Date(ano, 2, 8);
+
+    if (agora > aniversario) {
+        aniversario = new Date(ano + 1, 2, 8);
+    }
+
+    const diff = aniversario - agora;
+
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diff / 1000 / 60) % 60);
+    const segundos = Math.floor((diff / 1000) % 60);
+
+    if (diff <= 0) {
+        document.getElementById("contador").innerHTML =
+        "Hoje é o dia da minha estrela mais brilhante 🌙🤍";
+    } else {
+        document.getElementById("contador").innerHTML =
+        `${dias} dias ${horas}h ${minutos}m ${segundos}s`;
+    }
+}
+
+setInterval(atualizarContador, 1000);
+atualizarContador();
+</script>
+
+</body>
+</html>
